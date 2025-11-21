@@ -3,12 +3,16 @@
 with open("test_run.txt", "r") as file:
     
  s = file.read()
-
+for i in s:
+    print(i)
 res = s.splitlines()
+print(*res)
 zip(*res) #makes nucleotide rown into basepair columns
-print(res)
+print(list(zip(*res)))
+print("asdasd") # implament dynamic arrays
 
-
+for i in ["sdfdsf0", "4564564"]:
+    print(i)
 
 import sys, os, re
 import matplotlib.pyplot as plt
@@ -84,7 +88,7 @@ if __name__ == "__main__":
 
 
 # Make sure there are exactly two sequences
-if len(res) != 2:
+if len(res) != 2:    #problema - veliau nezinosiu, kiek cia bus seku
     raise ValueError("File must contain exactly two aligned sequences.")
 
 # --- Step 2: Transpose sequences into columns ---
