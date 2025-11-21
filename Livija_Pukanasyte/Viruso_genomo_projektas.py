@@ -5,10 +5,20 @@ with open("test_run.txt", "r") as file:
  s = file.read()
 
 res = s.splitlines()
+zip(*res) #makes nucleotide rown into basepair columns
 print(res)
- 
 
+
+
+import sys, os, re
+import matplotlib.pyplot as plt
 import numpy as np
+import math
+
+from scipy.stats import entropy
+from collections import Counter
+
+
 
 def create_scoring_matrix(seq1, seq2, match_score=1, mismatch_score=-1, gap_score=-1):
     n = len(seq1) + 1
@@ -67,3 +77,33 @@ if __name__ == "__main__":
     print("Aligned Sequences:")
     print(aligned_seq1)
     print(aligned_seq2)
+
+
+#!!!!!!cia prasideda entropijos skaiciavimai!!!!!!!:
+
+
+
+# Make sure there are exactly two sequences
+if len(res) != 2:
+    raise ValueError("File must contain exactly two aligned sequences.")
+
+# --- Step 2: Transpose sequences into columns ---
+columns = list(zip(*res))  # Each element is a tuple of nucleotides at that position
+
+# --- Step 3: Compute entropy per column ---
+column_entropies = []
+
+for col in columns:
+    counts = Counter(col)  # Count occurrences of each nucleotide
+    total = sum(counts.values())
+    probabilities = [count / total for count in counts.values()]  # Convert counts to probabilities
+    ent = entropy(probabilities, base=2)  # Shannon entropy in bits
+    column_entropies.append(ent)
+
+# --- Step 4: Output ---
+for i, ent in enumerate(column_entropies, start=1):
+    print(f"Column {i}: Entropy = {ent:.3f}")
+
+# Optional: average entropy across all columns
+average_entropy = sum(column_entropies) / len(column_entropies)
+print(f"\nAverage entropy across all columns: {average_entropy:.3f}")
