@@ -1,17 +1,19 @@
 
 
-with open("clx4rdrp.txt", "r") as file:
+with open("test_run.txt", "r") as file:
     
-    text = file.read()
+ s = file.read()
 
-
-print(text)
+res = s.splitlines()
+print(res)
+ 
 
 import numpy as np
 
 def create_scoring_matrix(seq1, seq2, match_score=1, mismatch_score=-1, gap_score=-1):
     n = len(seq1) + 1
     m = len(seq2) + 1
+    
     score_matrix = np.zeros((n, m))
 
     # Initialize the scoring matrix
@@ -19,6 +21,7 @@ def create_scoring_matrix(seq1, seq2, match_score=1, mismatch_score=-1, gap_scor
         score_matrix[i][0] = gap_score * i
     for j in range(m):
         score_matrix[0][j] = gap_score * j
+    
 
     return score_matrix
 
@@ -59,7 +62,8 @@ def needleman_wunsch(seq1, seq2):
     aligned_seq1, aligned_seq2 = traceback(score_matrix, seq1, seq2)
     return aligned_seq1, aligned_seq2
 
-
-
-
-
+if __name__ == "__main__":
+    aligned_seq1, aligned_seq2 = needleman_wunsch(res[0],res[1])
+    print("Aligned Sequences:")
+    print(aligned_seq1)
+    print(aligned_seq2)
