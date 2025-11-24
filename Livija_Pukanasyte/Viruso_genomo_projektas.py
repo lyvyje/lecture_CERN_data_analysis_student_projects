@@ -1,19 +1,4 @@
 
-
-with open("test_run.txt", "r") as file:
-    
- s = file.read()
-for i in s:
-    print(i)
-res = s.splitlines()
-print(*res)
-zip(*res) #makes nucleotide rown into basepair columns
-print(list(zip(*res)))
-print("asdasd") # implament dynamic arrays
-
-for i in ["sdfdsf0", "4564564"]:
-    print(i)
-
 import sys, os, re
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,6 +6,30 @@ import math
 
 from scipy.stats import entropy
 from collections import Counter
+
+
+with open("clx4rdrp.txt", "r") as file:
+    valid = set("ACGT")
+    s = file.read()
+    for character in s:
+        if character == "1":
+            print(character)
+        
+        character = character.strip() #strip panaikina naujas eilutes
+    if set(character).issubset(valid):
+        print(character)   #cia pasalonami taprai gal
+
+
+res = s.splitlines()
+# print(*res)
+zip(*res) #makes nucleotide rown into basepair columns
+# print(list(zip(*res)))
+print("asdasd") # implament dynamic arrays
+
+
+
+# for i in ["sdfdsf0", "4564564"]:
+#     print(i)
 
 
 
