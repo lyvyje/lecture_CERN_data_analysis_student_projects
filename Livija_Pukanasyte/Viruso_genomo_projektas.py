@@ -92,31 +92,59 @@ if __name__ == "__main__":
     print(aligned_seq2)
 
 
+
+#Sequence allignment
+
+
+with open("clx4rdrp.txt", "r") as file:
+    # valid = set("ACGT")
+    s = file.read()
+
+    import re
+
+# # [] means match any character from this list, ^ means NOT and r' means do not treat / as special characters, take them literally
+cleanstring = re.sub(r'[^ATGC>]', '', s)  #characters we want to replace, characters get raplaced to this, string
+# print(cleanstring)
+
+# Substringing a string (knowing when to slice)
+
+txt = cleanstring
+
+x = txt.split(">")
+
+
+for i, v in enumerate(x):
+    for j, k in enumerate(x):
+        create_scoring_matrix(v,k)
+        # print(i, v)
+
+
+
 #!!!!!!cia prasideda entropijos skaiciavimai!!!!!!!:
 
 
 
-# Make sure there are exactly two sequences
-if len(res) != 2:    #problema - veliau nezinosiu, kiek cia bus seku
-    raise ValueError("File must contain exactly two aligned sequences.")
+# # Make sure there are exactly two sequences
+# if len(res) != 2:    #problema - veliau nezinosiu, kiek cia bus seku
+#     raise ValueError("File must contain exactly two aligned sequences.")
 
-# --- Step 2: Transpose sequences into columns ---
-columns = list(zip(*res))  # Each element is a tuple of nucleotides at that position
+# # --- Step 2: Transpose sequences into columns ---
+# columns = list(zip(*res))  # Each element is a tuple of nucleotides at that position
 
-# --- Step 3: Compute entropy per column ---
-column_entropies = []
+# # --- Step 3: Compute entropy per column ---
+# column_entropies = []
 
-for col in columns:
-    counts = Counter(col)  # Count occurrences of each nucleotide
-    total = sum(counts.values())
-    probabilities = [count / total for count in counts.values()]  # Convert counts to probabilities
-    ent = entropy(probabilities, base=2)  # Shannon entropy in bits
-    column_entropies.append(ent)
+# for col in columns:
+#     counts = Counter(col)  # Count occurrences of each nucleotide
+#     total = sum(counts.values())
+#     probabilities = [count / total for count in counts.values()]  # Convert counts to probabilities
+#     ent = entropy(probabilities, base=2)  # Shannon entropy in bits
+#     column_entropies.append(ent)
 
-# --- Step 4: Output ---
-for i, ent in enumerate(column_entropies, start=1):
-    print(f"Column {i}: Entropy = {ent:.3f}")
+# # --- Step 4: Output ---
+# for i, ent in enumerate(column_entropies, start=1):
+#     print(f"Column {i}: Entropy = {ent:.3f}")
 
-# Optional: average entropy across all columns
-average_entropy = sum(column_entropies) / len(column_entropies)
-print(f"\nAverage entropy across all columns: {average_entropy:.3f}")
+# # Optional: average entropy across all columns
+# average_entropy = sum(column_entropies) / len(column_entropies)
+# print(f"\nAverage entropy across all columns: {average_entropy:.3f}")
