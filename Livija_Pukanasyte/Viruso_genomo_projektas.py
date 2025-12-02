@@ -12,18 +12,25 @@ from collections import Counter
 with open("clx4rdrp.txt", "r") as file:
     valid = set("ACGT")
     s = file.read()
+    for line in s:
+        s = s.replace('\n', '')
     # print(s)
+
 
 #sita vieta sutvarko teksta ir pavercia i substringus sekas
 
 cleanstring = re.sub(r'[^ATGC>]', '', s)  #characters we want to replace, characters get raplaced to this, string
-
+cleanstring = re.sub(r'[^ATGC>]', '>', s)
+cleanstring = re.sub(r'>[A-Za-z]{1,3}>', '', cleanstring)  # \w reiskia bet kokia raidę 
+cleanstring = re.sub(r'[^ATGC>]', '', cleanstring)  #characters we want to replace, characters get raplaced to this, string
+cleanstring = re.sub(r'>+', '>', cleanstring)
 
 
 substrings = cleanstring.split(">")
 
 substrings = [x for x in substrings if x] #for x (loops through each element, if x keeps elements that are "truthy(???)", "" is a falsy element, thus it gets deleted. and [x...] makes a new string that passes all the conditions)
 
+print(substrings)
 
 # print(substrings)
 
@@ -32,9 +39,10 @@ substrings = [x for x in substrings if x] #for x (loops through each element, if
 variables = {}
 for i, frag in enumerate(substrings):
     variables[f"fragment_{i}"] = frag
-    print(variables)
+    # print(variables)
 
-
+seq1 = variables["fragment_0"]
+print(seq1)
 
 #sita vieta alignina sekas
 
