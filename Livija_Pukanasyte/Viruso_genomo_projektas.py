@@ -27,7 +27,21 @@ cleanstring = re.sub(r'>+', '>', cleanstring)
 
 substrings = cleanstring.split(">")
 substrings = [x for x in substrings if x.strip()]
-print(substrings)
+# print(substrings)
+
+#sita vieta suteikia kintamuosius substringams
+
+sequence_dictionary = {}
+
+for i in range(len(substrings)):
+    key = f"seq{i}"   # dynamic key name
+    value = substrings[i]   # dynamic value from your list
+    sequence_dictionary[key] = value
+
+for name, seq in sequence_dictionary.items():
+    # print(name, "=", seq)
 
 
-
+#we will use this to access the sequence from the dictionary
+    seq0 = sequence_dictionary["seq0"]
+print(seq0)
