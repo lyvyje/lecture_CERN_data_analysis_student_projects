@@ -11,20 +11,18 @@ from scipy.stats import entropy
 
 
 with open("clx4rdrp.txt", "r") as file:
-    valid = set("ACGT")
-    s = file.read()
-    for line in s:
-        s = s.replace('\n', '')
-    # print(s)
+    s = file.read().replace('\n', '')
+
 
 
 #sita vieta sutvarko teksta ir pavercia i substringus sekas
 
-cleanstring = re.sub(r'[^ATGC>]', '', s)  #characters we want to replace, characters get raplaced to this, string
-cleanstring = re.sub(r'[^ATGC>]', '>', s)
-cleanstring = re.sub(r'>[A-Za-z]{1,3}>', '', cleanstring)  # \w reiskia bet kokia raidę 
-cleanstring = re.sub(r'[^ATGC>]', '', cleanstring)  #characters we want to replace, characters get raplaced to this, string
-cleanstring = re.sub(r'>+', '>', cleanstring)
+
+
+cleanstring = re.sub(r'>[A-Za-z]{1,3}>', '', s)  
+cleanstring = re.sub(r'[^ATGC>]', '', cleanstring) #characters we want to replace, characters get replaced to this, string. "^" reiskia viska isskyrus kas yra po sio simbolio
+cleanstring = re.sub(r'>+', '>', cleanstring) #jei yra keli > simboliai, juos pakeicia i viena
+
 
 substrings = cleanstring.split(">")
 substrings = [x for x in substrings if x.strip()]
@@ -43,16 +41,15 @@ for name, seq in sequence_dictionary.items():
     # print(name, "=", seq)
 
 
-# #we will use this to access the sequence from the dictionary
-#     seq0 = sequence_dictionary["seq0"]
-#     seq1 = sequence_dictionary["seq1"]
+#we will use this to access the sequence from the dictionary
+    seq0 = sequence_dictionary["seq0"]
+    seq1 = sequence_dictionary["seq1"]
 # print(seq0)
+# print(seq1)
 
 
 #Cia prasideda seku sulyginimas
 
- seq0 = sequence_dictionary["seq0"]
- seq1 = sequence_dictionary["seq1"]
 
 
 def create_scoring_matrix(seq0, seq1, match_score=1, mismatch_score=-1, gap_score=-1):
@@ -60,7 +57,7 @@ def create_scoring_matrix(seq0, seq1, match_score=1, mismatch_score=-1, gap_scor
     m = len(seq1) + 1
     score_matrix = np.zeros((n, m))
 
-    # Initialize the scoring matrix
+  
     for i in range(n):
         score_matrix[i][0] = gap_score * i
     for j in range(m):
@@ -106,29 +103,18 @@ def needleman_wunsch(seq0, seq1):
     return aligned_seq0, aligned_seq1
 
 
-if __name__ == "__main__":
-
-    aligned_seq0, aligned_seq1 = needleman_wunsch(seq0, seq1)
-    # print("Aligned Sequences:")
-    # print(aligned_seq0)
-    # print(aligned_seq1)
+if __name__ == "__main__": #this doesnt let the code run by itself, it needs to be executed manually, helps replicate the code without any conflict
 
 #Cia prasideda Shannon entropijos skaiciavimai
 
-def estimate_shannon_entropy(sequence):
-    """
-    Calculates the Shannon entropy of a DNA sequence.
-    """
+ def estimate_shannon_entropy(sequence):
+    
     counts = collections.Counter(sequence)                 # Count A, C, G, T
     dist = [v/sum(counts.values()) for v in counts.values()]  # Convert to probability distribution
     return entropy(dist, base=2)                            # Shannon entropy in bits
 
-# --- Example usage: calculate entropy for each substring ---
-for name, seq in sequence_dictionary.items():
-    ent = estimate_shannon_entropy(seq)
-    print(f"{name}: Shannon entropy = {ent:.4f}")
 
-# --- Example: align first two sequences and calculate entropy ---
+
 aligned_seq0, aligned_seq1 = needleman_wunsch(seq0, seq1)
 entropy_seq0 = estimate_shannon_entropy(aligned_seq0.replace('-', ''))  # ignore gaps for entropy
 entropy_seq1 = estimate_shannon_entropy(aligned_seq1.replace('-', ''))
